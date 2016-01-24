@@ -6,7 +6,7 @@ require './lib/checkers/github.rb'
 require './lib/checkers/google_apps.rb'
 require './lib/notifiers.rb'
 
-class TwoFaComplianceChecker
+class MfaWatchdogChecker
 
   def initialize
     Dotenv.load
