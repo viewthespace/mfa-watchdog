@@ -1,4 +1,4 @@
-require './lib/2fa_compliance_checker.rb'
+require './lib/2fa_watchdog.rb'
 
 class SecurityCheck < Thor
 
