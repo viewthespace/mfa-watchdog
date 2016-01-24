@@ -11,7 +11,6 @@ class TwoFaComplianceChecker
   def initialize
     Dotenv.load
     @notifiers = [CliNotifier.new, SlackNotifier.new]
-#    @notifiers = [CliNotifier.new]
   end
 
   def process
