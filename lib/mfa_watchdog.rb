@@ -10,7 +10,10 @@ class MfaWatchdogChecker
 
   def initialize
     Dotenv.load
-    @notifiers = [CliNotifier.new, SlackNotifier.new]
+    @notifiers = [
+      CliNotifier.new,
+      SlackNotifier.new
+    ]
   end
 
   def process

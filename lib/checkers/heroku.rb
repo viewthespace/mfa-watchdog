@@ -1,17 +1,17 @@
 require 'platform-api'
 
 class Heroku
-  def initialize(organization, exceptions)
-    @api = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+  def initialize(organization, exceptions, api = nil)
+    @api = api
     @organization = organization
     @exceptions = exceptions.split(',')
   end
 
   def check_compliance
-    org_users = @api.organization_member.list(@organization)
+    org_users = api.organization_member.list(@organization)
     # {"created_at"=>"2014-11-14T18:31:17Z", "email"=>"shawn.omara@viewthespace.com", "role"=>"admin", "two_factor_authentication"=>true, "updated_at"=>"2014-11-14T18:31:17Z"}
     naughty_users = org_users.select { |member| member['two_factor_authentication'] == false }
-    naughty_users.delete_if { |user| @exceptions.include?(user[:email]) } #filter known exceptions
+    naughty_users.delete_if { |user| @exceptions.include?(user["email"]) } #filter known exceptions
     format(naughty_users)
   end
 
@@ -24,5 +24,11 @@ class Heroku
         user: subject['email']
       }
     end
+  end
+
+  private
+
+  def api
+    @api ||= PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
   end
 end
